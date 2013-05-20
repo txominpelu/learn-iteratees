@@ -61,6 +61,17 @@ class Lesson1WithFoldSpec extends SpecificationWithJUnit with IterateeLessonUtil
 
     }
 
+    "Get the title of a list of webpages" in {
+      def takeLastN[E](n:Int) = Iteratee.fold[E,List[E]](Nil)((lastThree, elem:E) => lastThree match {
+        case list if list.length >= n => {
+          elem :: list.take(n - 1)
+        }
+        case list => elem :: list
+      })
+      evaluateIteratee(Enumerator(1, 2, 7, 9, 10), takeLastN[Int](4)) must contain(2,7,9,10).only
+
+    }
+
   }
 
 }
